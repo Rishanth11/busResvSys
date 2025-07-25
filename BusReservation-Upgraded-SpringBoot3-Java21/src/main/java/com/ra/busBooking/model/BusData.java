@@ -1,94 +1,42 @@
 package com.ra.busBooking.model;
 
-import java.sql.Date;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
-
-import org.springframework.format.annotation.DateTimeFormat;
+import jakarta.persistence.*;
+import java.time.LocalDate;
 
 @Entity
-@Table(name= "Reservation")
 public class BusData {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
-	
-    private String filterDate;
-	
-	private String toDestination;
-	
-	private String fromDestination;
-	
-	private Double price; 
-	
-	private String BusName;
-	
-	private String time;
-	
-	
-	public int getId() {
-		return id;
-	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	
-	public String getFilterDate() {
-		return filterDate;
-	}
+    private String busName;
+    private LocalDate filterDate;
+    private String fromDestination;
+    private String toDestination;
+    private double price;
+    private String time;
 
-	public void setFilterDate(String filterDate) {
-		this.filterDate = filterDate;
-	}
+    // Getters and Setters
 
-	public String getToDestination() {
-		return toDestination;
-	}
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-	public void setToDestination(String toDestination) {
-		this.toDestination = toDestination;
-	}
+    public String getBusName() { return busName; }
+    public void setBusName(String busName) { this.busName = busName; }
 
-	public String getFromDestination() {
-		return fromDestination;
-	}
+    public LocalDate getFilterDate() { return filterDate; }
+    public void setFilterDate(LocalDate filterDate) { this.filterDate = filterDate; }
 
-	public void setFromDestination(String fromDestination) {
-		this.fromDestination = fromDestination;
-	}
+    public String getFromDestination() { return fromDestination; }
+    public void setFromDestination(String fromDestination) { this.fromDestination = fromDestination; }
 
-	public Double getPrice() {
-		return price;
-	}
+    public String getToDestination() { return toDestination; }
+    public void setToDestination(String toDestination) { this.toDestination = toDestination; }
 
-	public void setPrice(Double price) {
-		this.price = price;
-	}
+    public double getPrice() { return price; }
+    public void setPrice(double price) { this.price = price; }
 
-	public String getBusName() {
-		return BusName;
-	}
-
-	public void setBusName(String busName) {
-		BusName = busName;
-	}
-
-	public String getTime() {
-		return time;
-	}
-
-	public void setTime(String time) {
-		this.time = time;
-	}
-
-	
+    public String getTime() { return time; }
+    public void setTime(String time) { this.time = time; }
 }

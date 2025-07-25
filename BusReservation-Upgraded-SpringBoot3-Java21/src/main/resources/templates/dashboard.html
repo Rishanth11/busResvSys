@@ -1,120 +1,83 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="ISO-8859-1">
     <title>Bus Reservation System</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
-
-<style>
-    .navbar {
-        background-color: cadetblue;
-    }
-    .anchor {
-        margin: 6px;
-        background-color: #d9edf7;
-        border-color: #d9edf7;
-    }
-    input, label {
-        display: block;
-    }
-</style>
-
 <body>
 
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <h1>Bus Reservation Dashboard</h1>
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <h4> Hi, Welcome <span th:text="${userDetails}"></span> </h4>
-                        </div>      
-                        <div class="col-md-3">
-                            <a th:href="@{/myBooking}" class="btn anchor" style="margin-left:600px">My Bookings</a>
-                        </div>
-                        <div class="col-md-3">
-                            <a th:href="@{/logout}" class="btn anchor" style="margin-left:500px">Logout</a>
-                        </div>
-                    </div>      
-                </div> 
-            </div>
-        </div>
-    </nav>
-
-    <br><br><br><br><br><br><br>
-
-    <div class="container">
-        <div class="row">
-            <form th:action="@{/dashboard}" method="post" th:object="${reservation}">
-                <div class="container">
-                    <div class="row">
-                        <h3 style="margin-left:400px; color:Red;">FIND YOUR BUS</h3>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="form-group" style="width: 50%;">
-                                <label class="control-label" for="from">From</label>
-                                <input id="from" class="form-control" th:field="*{from}" required autofocus="autofocus" />
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group" style="width: 50%;">
-                                <label class="control-label" for="to">To</label>
-                                <input id="to" class="form-control" th:field="*{to}" required autofocus="autofocus" />
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label class="control-label" for="filterDate">Date</label>
-                                <input type="date" th:field="*{filterDate}" id="filterDate" required autofocus="autofocus" />
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <button type="submit" class="btn btn-primary" style="margin-top:24px;">Find</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Show message if busData exists but is empty -->
-                <div th:if="${busData != null}">
-                    <div th:if="${#lists.isEmpty(busData)}">
-                        <p style="color:red; text-align:center;">No buses found for the given details.</p>
-                    </div>
-
-                    <!-- Show table if busData has values -->
-                    <div th:if="${!#lists.isEmpty(busData)}">
-                        <table border="1" class="table table-striped table-responsive-md">
-                            <thead>
-                                <tr>
-                                    <th>From</th>
-                                    <th>To</th>
-                                    <th>Time</th>
-                                    <th>Bus Name</th>
-                                    <th>Price</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr th:each="bus : ${busData}">
-                                    <td th:text="${bus.fromDestination}"></td>
-                                    <td th:text="${bus.toDestination}"></td>
-                                    <td th:text="${bus.time}"></td>
-                                    <td th:text="${bus.busName}"></td>
-                                    <td th:text="${bus.price}"></td>
-                                    <td>
-                                        <a th:href="@{/dashboard/book/{id}(id=${bus.id})}" class="btn btn-primary">Book</a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-            </form>
+<nav class="navbar navbar-dark bg-dark mb-4">
+    <div class="container d-flex justify-content-between align-items-center">
+        <h3 class="text-black">Bus Reservation Dashboard</h3>
+        <div class="d-flex align-items-center gap-3">
+            <h5 class="text-white mb-0">Hi, <span th:text="${userDetails}"></span></h5>
+            <a th:href="@{/myBooking}" class="btn btn-outline-light btn-sm mx-2">My Bookings</a>
+            <a th:href="@{/logout}" class="btn btn-outline-light btn-sm">Logout</a>
         </div>
     </div>
+</nav>
+
+<div class="container">
+    <div class="text-center mb-4">
+        <h4 class="text-danger">Find Your Bus</h4>
+    </div>
+
+    <form th:action="@{/dashboard}" method="post" th:object="${reservation}">
+        <div class="row mb-4">
+            <div class="col-md-3 mb-2">
+                <label for="from">From</label>
+                <input id="from" class="form-control" th:field="*{from}" required />
+            </div>
+            <div class="col-md-3 mb-2">
+                <label for="to">To</label>
+                <input id="to" class="form-control" th:field="*{to}" required />
+            </div>
+            <div class="col-md-3 mb-2">
+                <label for="filterDate">Date</label>
+                <input type="date" id="filterDate" class="form-control" th:field="*{filterDate}" required />
+            </div>
+            <div class="col-md-3 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-100">Find</button>
+            </div>
+        </div>
+    </form>
+
+    <div th:if="${busData != null}">
+        <div th:if="${#lists.isEmpty(busData)}" class="alert alert-danger text-center">
+            No buses found for the given details.
+        </div>
+
+        <div th:if="${!#lists.isEmpty(busData)}" class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>From</th>
+                        <th>To</th>
+                        <th>Time</th>
+                        <th>Bus Name</th>
+                        <th>Price</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="bus : ${busData}">
+                        <td th:text="${bus.fromDestination}"></td>
+                        <td th:text="${bus.toDestination}"></td>
+                        <td th:text="${bus.time}"></td>
+                        <td th:text="${bus.busName}"></td>
+                        <td th:text="${bus.price}"></td>
+                        <td>
+                            <a th:href="@{/dashboard/book/{id}(id=${bus.id}, date=${reservation.filterDate})}"
+                               class="btn btn-sm btn-success">Book</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>

@@ -1,54 +1,62 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<style>
-			
-		label {
-    display:block;
-    }
-    .textColor {
-    color: #a8bbf8;
-    }
-    h2{
-     width: 100%;
-    text-align:center;
-    }
-			
-		</style>
-	</head>
-	<body>
-	<h2>Bus Ticket</h2>
-		<div class="container">
-			<div class="row">
-			<div class= "col-md-6">
-					<label>Date of Departure:</label><div class="textColor"><p th:text ="${date}"/></div>
-					</div>
-					<div class= "col-md-6">
-					<label>Name of Primary Passenger:</label><div class="textColor"><p th:text ="${name}"/></div>
-					</div>
-					</div>
-					<div class = "row">
-					<div class= "col-md-6">
-					<label>Ticket No:</label><div class="textColor">#123456</div>
-					</div>
-					<div class= "col-md-6">
-					<label>No. of Passengers Traveling:</label><div class="textColor"><p th:text ="${noOfPass}"/></div>
-					</div>
-					</div>
-					<div class="row">
-					<div class= "col-md-6">
-					<label>Departure:</label><div class="textColor" ><p th:text ="${From}"/></div>
-					</div>
-					<div class= "col-md-6">
-					<label>Destination:</label><div class="textColor"><p th:text ="${to}"/></div>
-					</div>
-				</div>
-				<div class="row">
-				<div class= "col-md-6">
-					<label>Bus Name:</label><div class="textColor"><p th:text ="${busName}"/></div>
-					</div>
-				</div>
-			</div>
-<h4>Note: Along with the ticket bring Primary Passenger's Id Proof.</h4>
-	</body>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Bus Ticket</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<div class="container ticket-box">
+    <div class="ticket-header">
+        <h2>Bus Ticket</h2>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <p class="label-title">Date of Departure:</p>
+            <p class="textColor" th:text="${date}">2025-08-01</p>
+        </div>
+        <div class="col-md-6">
+            <p class="label-title">Name of Primary Passenger:</p>
+            <p class="textColor" th:text="${name}">Rishanth</p>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <p class="label-title">Ticket No:</p>
+            <p class="textColor">#123456</p>
+        </div>
+        <div class="col-md-6">
+            <p class="label-title">No. of Passengers Traveling:</p>
+            <p class="textColor" th:text="${noOfPass}">2</p>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <p class="label-title">Departure:</p>
+            <p class="textColor" th:text="${From}">Chennai</p>
+        </div>
+        <div class="col-md-6">
+            <p class="label-title">Destination:</p>
+            <p class="textColor" th:text="${to}">Bangalore</p>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <p class="label-title">Bus Name:</p>
+            <p class="textColor" th:text="${busName}">KPN Travels</p>
+        </div>
+    </div>
+
+    <div class="note">
+        <h5>Note: Please bring valid ID proof of the primary passenger along with this ticket.</h5>
+    </div>
+</div>
+
+</body>
 </html>

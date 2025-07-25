@@ -1,41 +1,39 @@
 package com.ra.busBooking.DTO;
 
-import java.sql.Date;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDate;
 
 public class ReservationDTO {
 
-	
-	private String filterDate;
-	
-	private String to;
-	
-	private String from;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate filterDate;
 
+    private String to;
 
-	public String getFilterDate() {
-		return filterDate;
-	}
+    private String from;
 
-	public void setFilterDate(String filterDate) {
-		this.filterDate = filterDate;
-	}
+    public LocalDate getFilterDate() {
+        return filterDate;
+    }
 
-	public String getTo() {
-		return to;
-	}
+    public void setFilterDate(LocalDate filterDate) {
+        this.filterDate = filterDate;
+    }
 
-	public void setTo(String to) {
-		this.to = to;
-	}
+    public String getTo() {
+        return to;
+    }
 
-	public String getFrom() {
-		return from;
-	}
+    public void setTo(String to) {
+        this.to = to;
+    }
 
-	public void setFrom(String from) {
-		this.from = from;
-	}
-	
-	
-	
+    public String getFrom() {
+        return from;
+    }
+
+    public void setFrom(String from) {
+        this.from = from;
+    }
 }

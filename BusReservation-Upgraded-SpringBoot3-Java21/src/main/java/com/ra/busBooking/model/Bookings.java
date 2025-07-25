@@ -1,134 +1,75 @@
 package com.ra.busBooking.model;
 
-import java.util.LinkedList;
-import java.util.List;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import java.time.LocalDate;
 
 @Entity
-@Table(name = "Bookings")
 public class Bookings {
 
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
-	
-	private int noOfPersons ;
-	
-	private Double totalCalculated ;
-	
-	private String filterDate;
-	
-	private String toDestination;
-	
-	private String fromDestination;
-	
-	private String BusName;
-	
-	private int userId;
-	
-	private String time;
-	
-	private String fileName;
-	
-	private boolean tripStatus;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private double price;
+    private String busName;
+    private LocalDate filterDate;
+    private String fromDestination;
+    private String toDestination;
+    private int noOfPersons;
+    private String time;
+    private double totalCalculated;
+    private boolean tripStatus;
+    private int userId;
+    private String fileName;
 
-	public int getId() {
-		return id;
-	}
+    // Getters and Setters
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-	public int getNoOfPersons() {
-		return noOfPersons;
-	}
+    public String getBusName() { return busName; }
+    public void setBusName(String busName) { this.busName = busName; }
 
-	public void setNoOfPersons(int noOfPersons) {
-		this.noOfPersons = noOfPersons;
-	}
+    public LocalDate getFilterDate() { return filterDate; }
+    public void setFilterDate(LocalDate filterDate) { this.filterDate = filterDate; }
 
-	public Double getTotalCalculated() {
-		return totalCalculated;
-	}
+    public String getFromDestination() { return fromDestination; }
+    public void setFromDestination(String fromDestination) { this.fromDestination = fromDestination; }
 
-	public void setTotalCalculated(Double totalCalculated) {
-		this.totalCalculated = totalCalculated;
-	}
+    public String getToDestination() { return toDestination; }
+    public void setToDestination(String toDestination) { this.toDestination = toDestination; }
 
-	public String getFilterDate() {
-		return filterDate;
-	}
+    public int getNoOfPersons() { return noOfPersons; }
+    public void setNoOfPersons(int noOfPersons) { this.noOfPersons = noOfPersons; }
 
-	public void setFilterDate(String filterDate) {
-		this.filterDate = filterDate;
-	}
+    public String getTime() { return time; }
+    public void setTime(String time) { this.time = time; }
 
-	public String getToDestination() {
-		return toDestination;
-	}
+    public double getTotalCalculated() { return totalCalculated; }
+    public void setTotalCalculated(double totalCalculated) { this.totalCalculated = totalCalculated; }
 
-	public void setToDestination(String toDestination) {
-		this.toDestination = toDestination;
-	}
+    public boolean isTripStatus() { return tripStatus; }
+    public void setTripStatus(boolean tripStatus) { this.tripStatus = tripStatus; }
+    public int getUserId() {
+        return userId;
+    }
 
-	public String getFromDestination() {
-		return fromDestination;
-	}
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
 
-	public void setFromDestination(String fromDestination) {
-		this.fromDestination = fromDestination;
-	}
+    public String getFileName() {
+        return fileName;
+    }
 
-	public String getBusName() {
-		return BusName;
-	}
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+    
+    public double getPrice() {
+        return price;
+    }
 
-	public void setBusName(String busName) {
-		BusName = busName;
-	}
-
-	public int getUserId() {
-		return userId;
-	}
-
-	public void setUserId(int userId) {
-		this.userId = userId;
-	}
-
-	public String getTime() {
-		return time;
-	}
-
-	public void setTime(String time) {
-		this.time = time;
-	}
-
-	public String getFileName() {
-		return fileName;
-	}
-
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
-	}
-
-	public boolean isTripStatus() {
-		return tripStatus;
-	}
-
-	public void setTripStatus(boolean tripStatus) {
-		this.tripStatus = tripStatus;
-	}
-	
-
+    public void setPrice(double price) {
+        this.price = price;
+    }
 }

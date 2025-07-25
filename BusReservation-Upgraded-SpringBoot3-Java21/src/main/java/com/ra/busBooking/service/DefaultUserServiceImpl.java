@@ -1,28 +1,13 @@
 package com.ra.busBooking.service;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Collection;
-import java.util.Properties;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import jakarta.activation.DataHandler;
-import jakarta.activation.DataSource;
-import jakarta.activation.FileDataSource;
-import jakarta.mail.BodyPart;
-import jakarta.mail.Message;
-import jakarta.mail.MessagingException;
-import jakarta.mail.Multipart;
-import jakarta.mail.PasswordAuthentication;
-import jakarta.mail.Session;
-import jakarta.mail.Transport;
-import jakarta.mail.internet.InternetAddress;
-import jakarta.mail.internet.MimeBodyPart;
-import jakarta.mail.internet.MimeMessage;
-import jakarta.mail.internet.MimeMultipart;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -44,6 +29,7 @@ import com.ra.busBooking.model.User;
 import com.ra.busBooking.repository.BookingsRepository;
 import com.ra.busBooking.repository.RoleRepository;
 import com.ra.busBooking.repository.UserRepository;
+import java.time.format.DateTimeFormatter;
 
 @Service
 public class DefaultUserServiceImpl implements DefaultUserService {
@@ -60,9 +46,11 @@ public class DefaultUserServiceImpl implements DefaultUserService {
     @Autowired
     private TemplateEngine templateEngine;
 
-    // ✅ Use the PasswordEncoder interface, not BCrypt directly
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private EmailService emailService; // ✅ Added
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -84,12 +72,9 @@ public class DefaultUserServiceImpl implements DefaultUserService {
 
     @Override
     public User save(UserRegisteredDTO userRegisteredDTO) {
-        Role role;
-        if (userRegisteredDTO.getRole().equals("USER")) {
-            role = roleRepo.findByRole("USER");
-        } else {
-            role = roleRepo.findByRole("ADMIN");
-        }
+        Role role = userRegisteredDTO.getRole().equals("USER")
+                ? roleRepo.findByRole("USER")
+                : roleRepo.findByRole("ADMIN");
 
         User user = new User();
         user.setEmail(userRegisteredDTO.getEmail_id());
@@ -101,10 +86,9 @@ public class DefaultUserServiceImpl implements DefaultUserService {
     }
 
     @Override
-    public Bookings updateBookings(BookingsDTO bookingDTO, UserDetails user) {
+    public Bookings updateBookings(BookingsDTO bookingDTO, User user) {
         Bookings booking = new Bookings();
-        String email = user.getUsername();
-        User users = userRepo.findByEmail(email);
+
         booking.setBusName(bookingDTO.getBusName());
         booking.setFilterDate(bookingDTO.getFilterDate());
         booking.setFromDestination(bookingDTO.getFromDestination());
@@ -112,19 +96,22 @@ public class DefaultUserServiceImpl implements DefaultUserService {
         booking.setNoOfPersons(bookingDTO.getNoOfPersons());
         booking.setTotalCalculated(bookingDTO.getTotalCalculated());
         booking.setTime(bookingDTO.getTime());
-        booking.setUserId(users.getId());
+        booking.setUserId(user.getId());
         booking.setTripStatus(true);
-        String filename = generatePDFAndSendMail(bookingDTO, users);
+        booking.setPrice(bookingDTO.getPrice());
+
+        String filename = generatePDFAndSendMail(bookingDTO, user);
         booking.setFileName(filename);
+
         return bookingRepository.save(booking);
     }
 
-    private String generatePDFAndSendMail(BookingsDTO bookingDTO, User users) {
+    private String generatePDFAndSendMail(BookingsDTO bookingDTO, User user) {
         int random = (int) (Math.random() * 90) + 10;
-        String nameGenrator = users.getName() + "_ticket_" + random + ".pdf";
+        String nameGenrator = user.getName() + "_ticket_" + random + ".pdf";
         try {
-            createPdf(bookingDTO, users, nameGenrator);
-            sendEmail(bookingDTO, users, nameGenrator);
+            createPdf(bookingDTO, user, nameGenrator);
+            emailService.sendPdfEmail(user.getEmail(), new File(nameGenrator)); // ✅ Updated
             return nameGenrator;
         } catch (DocumentException | IOException e) {
             e.printStackTrace();
@@ -132,65 +119,23 @@ public class DefaultUserServiceImpl implements DefaultUserService {
         return "";
     }
 
-    @Override
-    public void sendEmail(BookingsDTO bookingDTO, User users, String nameGenrator) {
-        try {
-            final String username = ""; // sender email
-            final String password = ""; // app password
-
-            Properties props = new Properties();
-            props.put("mail.smtp.auth", true);
-            props.put("mail.smtp.starttls.enable", true);
-            props.put("mail.smtp.host", "smtp.gmail.com");
-            props.put("mail.smtp.port", "587");
-
-            Session session = Session.getInstance(props,
-                    new jakarta.mail.Authenticator() {
-                        protected PasswordAuthentication getPasswordAuthentication() {
-                            return new PasswordAuthentication(username, password);
-                        }
-                    });
-
-            Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(username));
-            message.setRecipients(
-                    Message.RecipientType.TO,
-                    InternetAddress.parse(users.getEmail()));
-            message.setSubject("Bus Ticket");
-
-            BodyPart messageBodyPart = new MimeBodyPart();
-            messageBodyPart.setText("Your ticket is attached.");
-
-            Multipart multipart = new MimeMultipart();
-            multipart.addBodyPart(messageBodyPart);
-
-            messageBodyPart = new MimeBodyPart();
-            String filename = nameGenrator;
-            DataSource source = new FileDataSource(filename);
-            messageBodyPart.setDataHandler(new DataHandler(source));
-            messageBodyPart.setFileName(filename);
-            multipart.addBodyPart(messageBodyPart);
-
-            message.setContent(multipart);
-
-            Transport.send(message);
-
-            System.out.println("Sent message successfully.");
-        } catch (MessagingException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void createPdf(BookingsDTO booking, User users, String nameGenrator) throws DocumentException, IOException {
+    public void createPdf(BookingsDTO booking, User user, String nameGenrator) throws DocumentException, IOException {
         Context context = new Context();
-        context.setVariable("name", users.getName());
-        context.setVariable("date", booking.getFilterDate());
+        context.setVariable("name", user.getName());
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        if (booking.getFilterDate() != null) {
+            context.setVariable("date", booking.getFilterDate().format(formatter));
+        } else {
+            context.setVariable("date", "N/A"); // or leave it empty if you prefer
+        }
+
         context.setVariable("noOfPass", booking.getNoOfPersons());
         context.setVariable("From", booking.getFromDestination());
         context.setVariable("to", booking.getToDestination());
         context.setVariable("busName", booking.getBusName());
 
-        String processHTML = templateEngine.process("template", context);
+        String processHTML = templateEngine.process("gmail", context);
 
         try (OutputStream out = new FileOutputStream(nameGenrator)) {
             ITextRenderer ir = new ITextRenderer();

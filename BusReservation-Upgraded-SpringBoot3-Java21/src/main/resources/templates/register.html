@@ -1,89 +1,45 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="ISO-8859-1">
-    <title>Bus Reservation System</title>
-<link rel="stylesheet" 
- href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <meta charset="UTF-8">
+    <title>Register - Bus Reservation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/style.css">
 </head>
-<style>
-    .navbar {
-        background-color: #d9edf7;
-    }
-</style>
-
 <body>
 
-    <!-- create navigation bar ( header) -->
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-               <h2>Bus Reservation Registration</h2>
-            </div>
-        </div>
-    </nav>
-
-    <br><br><br><br><br><br><br>
-    <!-- Create HTML registration form -->
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow-sm">
     <div class="container">
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3">
-
-                <!-- success message -->
-                <div th:if="${param.success}">
-                  <div class="alert alert-info">You've successfully registered
-                        to our awesome app!</div>
-                </div>
-
-                <h1>Registration</h1>
-
-                <form th:action="@{/registration}" method="post" 
-                             th:object="${user}">
-                    <div class="form-group">
-                        <label class="control-label" for="firstName"> 
-                           First Name </label>
-                        <input id="firstName" class="form-control" 
-                                 th:field="*{name}" required
-                            autofocus="autofocus" />
-                    </div>
-
-
-                    <div class="form-group">
-                        <label class="control-label" for="email"> Email 
-                         </label> <input id="email" class="form-control"
-                            th:field="*{email_id}" required autofocus="autofocus" 
-                                />
-                    </div>
-                    
-                    
-
-                    <div class="form-group">
-                        <label class="control-label" for="password"> 
-                           Password </label> <input id="password"
-                            class="form-control" type="password" 
-                          th:field="*{password}" required
-                            autofocus="autofocus" />
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="control-label" for="role"> 
-                           Role </label> <select id="role" th:field="*{role}" class="form-control form-control-lg">
-													<option value="USER">USER</option>
-													<option value="ADMIN">ADMIN</option>
-												</select>
-                    </div>
-
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary">
-                          Register</button>
-                        <span>Already registered? <a href="/" 
-                  th:href="@{/login}">Login
-                                here</a></span>
-                    </div>
-                </form>
-            </div>
+        <a class="navbar-brand font-weight-bold" href="#">Bus Reservation</a>
+        <div class="ml-auto">
+            <a th:href="@{/login}" class="btn btn-outline-primary">Login</a>
         </div>
     </div>
-</body>
-</html>
+</nav>
+
+<!-- Spacing below navbar -->
+<div style="padding-top: 80px;"></div>
+
+<!-- Main Registration Content -->
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+
+            <h2 class="text-center mb-4">User Registration</h2>
+
+            <form th:action="@{/registration}" method="post" th:object="${user}">
+                <div class="form-group">
+                    <label for="username">Email</label>
+                    <input type="email" id="username" class="form-control" th:field="*{email_id}" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" class="form-control" th:field="*{password}" required />
+                </div>

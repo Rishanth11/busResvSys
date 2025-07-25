@@ -1,112 +1,64 @@
+
 package com.ra.busBooking.DTO;
 
-/**
- * @author Ramanpreet
- *
- */
+import java.time.LocalDate;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class BookingsDTO {
 
-	private int id;
-	 private String filterDate;
-		
-		private String toDestination;
-		
-		private String fromDestination;
-		
-		private Double price; 
-		
-		private String BusName;
-		
-		private String time;
-		
-		private int noOfPersons ;
-		
-		private Double totalCalculated ;
-		
-		private String tripStatus;
+    private String busName;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate filterDate;
+    
+    private String fromDestination;
+    private String toDestination;
+    private int noOfPersons;
+    private String time;
+    private double totalCalculated;
+    private double price; // ✅ Needed for calculation
+    private Long id;
+    private String tripStatus;
 
-		public String getFilterDate() {
-			return filterDate;
-		}
+    // Getters and Setters
 
-		public void setFilterDate(String filterDate) {
-			this.filterDate = filterDate;
-		}
+    public String getBusName() { return busName; }
+    public void setBusName(String busName) { this.busName = busName; }
 
-		public String getToDestination() {
-			return toDestination;
-		}
+    public LocalDate getFilterDate() { return filterDate; }
+    public void setFilterDate(LocalDate filterDate) { this.filterDate = filterDate; }
 
-		public void setToDestination(String toDestination) {
-			this.toDestination = toDestination;
-		}
+    public String getFromDestination() { return fromDestination; }
+    public void setFromDestination(String fromDestination) { this.fromDestination = fromDestination; }
 
-		public String getFromDestination() {
-			return fromDestination;
-		}
+    public String getToDestination() { return toDestination; }
+    public void setToDestination(String toDestination) { this.toDestination = toDestination; }
 
-		public void setFromDestination(String fromDestination) {
-			this.fromDestination = fromDestination;
-		}
+    public int getNoOfPersons() { return noOfPersons; }
+    public void setNoOfPersons(int noOfPersons) { this.noOfPersons = noOfPersons; }
 
-		public Double getPrice() {
-			return price;
-		}
+    public String getTime() { return time; }
+    public void setTime(String time) { this.time = time; }
 
-		public void setPrice(Double price) {
-			this.price = price;
-		}
+    public double getTotalCalculated() { return totalCalculated; }
+    public void setTotalCalculated(double totalCalculated) { this.totalCalculated = totalCalculated; }
 
-		public String getBusName() {
-			return BusName;
-		}
+    public double getPrice() { return price; }
+    public void setPrice(double price) { this.price = price; }
+    
+    public Long getId() {
+        return id;
+    }
 
-		public void setBusName(String busName) {
-			BusName = busName;
-		}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-		public String getTime() {
-			return time;
-		}
+    public String getTripStatus() {
+        return tripStatus;
+    }
 
-		public void setTime(String time) {
-			this.time = time;
-		}
-
-		public int getNoOfPersons() {
-			return noOfPersons;
-		}
-
-		public void setNoOfPersons(int noOfPersons) {
-			this.noOfPersons = noOfPersons;
-		}
-
-		public Double getTotalCalculated() {
-			return totalCalculated;
-		}
-
-		public void setTotalCalculated(Double totalCalculated) {
-			this.totalCalculated = totalCalculated;
-		}
-
-		public String getTripStatus() {
-			return tripStatus;
-		}
-
-		public void setTripStatus(String tripStatus) {
-			this.tripStatus = tripStatus;
-		}
-
-		public int getId() {
-			return id;
-		}
-
-		public void setId(int id) {
-			this.id = id;
-		}
-
-		
-		
-		
-		
+    public void setTripStatus(String tripStatus) {
+        this.tripStatus = tripStatus;
+    }
 }
