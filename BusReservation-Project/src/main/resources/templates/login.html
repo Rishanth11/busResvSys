@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Bus Reservation System - Login</title>
+    
+    <!-- Bootstrap & your CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <style>
+        body {
+            padding-top: 80px;
+            background-color: #f9f9f9;
+        }
+
+        .navbar {
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .navbar h1 {
+            margin: 0;
+            padding: 10px 0;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .login-container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .form-group label {
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<nav class="navbar navbar-light fixed-top">
+    <div class="container">
+        <h1 class="text-center w-100">Bus Reservation System</h1>
+    </div>
+</nav>
+
+<!-- Login Form -->
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 login-container">
+
+            <div th:if="${param.error}">
+                <div class="alert alert-danger text-center">
+                    Email or Password entered is wrong. Please check and try again.
+                </div>
+            </div>
+
+            <h3 class="text-center mb-4">Login</h3>
+
+            <form th:action="@{/login}" method="post" th:object="${user}">
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input id="email" class="form-control" th:field="*{username}" required autofocus />
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input id="password" class="form-control" type="password" th:field="*{password}" required />
+                </div>
+
+                <div class="form-group text-center">
+                    <button type="submit" class="btn btn-primary btn-block">Log In</button>
+                    <p class="mt-3">New user? <a th:href="@{/registration}">Register here</a></p>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

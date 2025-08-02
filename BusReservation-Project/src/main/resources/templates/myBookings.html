@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>My Bookings</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- Custom Style -->
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top shadow-sm">
+    <div class="container">
+        <a class="navbar-brand font-weight-bold" href="#">Bus Reservation</a>
+        <div class="ml-auto">
+            <a th:href="@{/dashboard}" class="btn btn-outline-primary mr-2">Dashboard</a>
+            <a th:href="@{/logout}" class="btn btn-outline-danger">Logout</a>
+        </div>
+    </div>
+</nav>
+
+<!-- Padding for fixed navbar -->
+<div style="padding-top: 80px;"></div>
+
+<div class="container">
+    <div class="row justify-content-center mb-4">
+        <div class="col-md-10 text-center">
+            <h2>My Bookings</h2>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div th:if="${#lists.isEmpty(bookings)}">
+                <div class="alert alert-info text-center">
+                    You have no bookings yet.
+                </div>
+            </div>
+
+            <div th:if="${!#lists.isEmpty(bookings)}">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>From</th>
+                                <th>To</th>
+                                <th>Date</th>
+                                <th>Bus Name</th>
+                                <th>Price</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="booking : ${bookings}">
+                                <td th:text="${booking.fromDestination}"></td>
+                                <td th:text="${booking.toDestination}"></td>
+                                <td th:text="${booking.filterDate}"></td>
+                                <td th:text="${booking.busName}"></td>
+                                <td th:text="${booking.price}"></td>
+                                <td>
+                                    <a th:href="@{/cancelBooking/{id}(id=${booking.id})}"
+                                       class="btn btn-sm btn-danger">Cancel</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

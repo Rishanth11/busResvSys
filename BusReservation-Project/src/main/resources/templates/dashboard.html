@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Bus Reservation System</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<nav class="navbar navbar-dark bg-dark mb-4">
+    <div class="container d-flex justify-content-between align-items-center">
+        <h3 class="text-black">Bus Reservation Dashboard</h3>
+        <div class="d-flex align-items-center gap-3">
+            <h5 class="text-white mb-0">Hi, <span th:text="${userDetails}"></span></h5>
+            <a th:href="@{/myBooking}" class="btn btn-outline-light btn-sm mx-2">My Bookings</a>
+            <a th:href="@{/logout}" class="btn btn-outline-light btn-sm">Logout</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="text-center mb-4">
+        <h4 class="text-danger">Find Your Bus</h4>
+    </div>
+
+    <form th:action="@{/dashboard}" method="post" th:object="${reservation}">
+        <div class="row mb-4">
+            <div class="col-md-3 mb-2">
+                <label for="from">From</label>
+                <input id="from" class="form-control" th:field="*{from}" required />
+            </div>
+            <div class="col-md-3 mb-2">
+                <label for="to">To</label>
+                <input id="to" class="form-control" th:field="*{to}" required />
+            </div>
+            <div class="col-md-3 mb-2">
+                <label for="filterDate">Date</label>
+                <input type="date" id="filterDate" class="form-control" th:field="*{filterDate}" required />
+            </div>
+            <div class="col-md-3 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-100">Find</button>
+            </div>
+        </div>
+    </form>
+
+    <div th:if="${busData != null}">
+        <div th:if="${#lists.isEmpty(busData)}" class="alert alert-danger text-center">
+            No buses found for the given details.
+        </div>
+
+        <div th:if="${!#lists.isEmpty(busData)}" class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>From</th>
+                        <th>To</th>
+                        <th>Time</th>
+                        <th>Bus Name</th>
+                        <th>Price</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="bus : ${busData}">
+                        <td th:text="${bus.fromDestination}"></td>
+                        <td th:text="${bus.toDestination}"></td>
+                        <td th:text="${bus.time}"></td>
+                        <td th:text="${bus.busName}"></td>
+                        <td th:text="${bus.price}"></td>
+                        <td>
+                            <a th:href="@{/dashboard/book/{id}(id=${bus.id}, date=${reservation.filterDate})}"
+                               class="btn btn-sm btn-success">Book</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
