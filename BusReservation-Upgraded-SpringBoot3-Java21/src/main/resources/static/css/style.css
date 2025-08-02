@@ -1,0 +1,100 @@
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: auto;
+    background-color: white;
+    padding: 20px 40px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    margin-top: 50px;
+}
+
+h2 {
+    text-align: center;
+    color: #008C9E;
+    margin-bottom: 30px;
+}
+
+label {
+    font-weight: bold;
+}
+
+input, select {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+input:read-only {
+    background-color: #f1f1f1;
+}
+
+button, .btn {
+    background-color: #008C9E;
+    color: white;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+button:hover, .btn:hover {
+    background-color: #00728a;
+}
+
+a {
+    color: #008C9E;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.ticket-box {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 0 12px rgba(0,0,0,0.1);
+    margin-top: 50px;
+}
+
+.ticket-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.label-title {
+    font-weight: bold;
+    color: #333;
+}
+
+.textColor {
+    color: #007bff;
+}
+
+.note {
+    text-align: center;
+    margin-top: 30px;
+    color: #dc3545;
+}
+
+.ticket {
+    border: 2px dashed #333;
+    padding: 20px;
+    width: 80%;
+    margin: auto;
+}
+
+p {
+    font-size: 16px;
+}

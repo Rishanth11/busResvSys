@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome - Bus Reservation System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm fixed-top">
+    <div class="container">
+        <a class="navbar-brand font-weight-bold" href="#">Bus Reservation</a>
+        <div class="ml-auto">
+            <a th:href="@{/login}" class="btn btn-outline-primary">Login</a>
+            <a th:href="@{/registration}" class="btn btn-primary ml-2">Register</a>
+        </div>
+    </div>
+</nav>
+
+<!-- Top spacing -->
+<div style="padding-top: 100px;"></div>
+
+<!-- Welcome Section -->
+<div class="container text-center">
+    <h1 class="display-4 mb-3">Welcome to the Bus Reservation System</h1>
+    <p class="lead mb-4">Book your journey with ease and comfort.</p>
+    <a th:href="@{/dashboard}" class="btn btn-success btn-lg">Find Buses</a>
+</div>
+
+<!-- Optional footer -->
+<footer class="footer mt-5 py-3 bg-light text-center">
+    <div class="container">
+        <span class="text-muted">&copy; 2025 Bus Reservation System</span>
+    </div>
+</footer>
+
+</body>
+</html>
