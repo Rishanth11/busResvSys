@@ -28,45 +28,62 @@
 <div style="padding-top: 80px;"></div>
 
 <div class="container">
-    <div class="row justify-content-center mb-4">
-        <div class="col-md-10 text-center">
-            <h2>My Bookings</h2>
-        </div>
-    </div>
+    <!-- ... -->
 
     <div class="row justify-content-center">
         <div class="col-md-10">
+
+            <!-- ✅✅ Place alert messages here, before the table -->
+            <div th:if="${param.successCancel}" class="alert alert-success" role="alert">
+                Booking cancelled successfully.
+            </div>
+            <div th:if="${param.alreadyCancel}" class="alert alert-warning" role="alert">
+                This booking has already been cancelled.
+            </div>
+            <div th:if="${param.notFound}" class="alert alert-danger" role="alert">
+                Booking not found.
+            </div>
+
+            <!-- ✅ Show this if no bookings -->
             <div th:if="${#lists.isEmpty(bookings)}">
                 <div class="alert alert-info text-center">
                     You have no bookings yet.
                 </div>
             </div>
 
+            <!-- ✅ Show this if bookings are available -->
             <div th:if="${!#lists.isEmpty(bookings)}">
                 <div class="table-responsive">
                     <table class="table table-bordered table-striped">
                         <thead class="thead-dark">
-                            <tr>
-                                <th>From</th>
-                                <th>To</th>
-                                <th>Date</th>
-                                <th>Bus Name</th>
-                                <th>Price</th>
-                                <th>Action</th>
-                            </tr>
+                        <tr>
+                            <th>From</th>
+                            <th>To</th>
+                            <th>Date</th>
+                            <th>Bus Name</th>
+                            <th>Price</th>
+                            <th>Action</th>
+                        </tr>
                         </thead>
                         <tbody>
-                            <tr th:each="booking : ${bookings}">
-                                <td th:text="${booking.fromDestination}"></td>
-                                <td th:text="${booking.toDestination}"></td>
-                                <td th:text="${booking.filterDate}"></td>
-                                <td th:text="${booking.busName}"></td>
-                                <td th:text="${booking.price}"></td>
-                                <td>
-                                    <a th:href="@{/cancelBooking/{id}(id=${booking.id})}"
-                                       class="btn btn-sm btn-danger">Cancel</a>
-                                </td>
-                            </tr>
+                        <tr th:each="booking : ${bookings}">
+                            <td th:text="${booking.fromDestination}"></td>
+                            <td th:text="${booking.toDestination}"></td>
+                            <td th:text="${booking.filterDate}"></td>
+                            <td th:text="${booking.busName}"></td>
+                            <td th:text="${booking.totalCalculated}"></td>
+                            <td>
+                                <span th:if="${booking.tripStatus}">
+                                    <a th:href="@{/myBooking/cancelBooking/{id}(id=${booking.id})}"
+                                   class="btn btn-sm btn-danger"
+                                       onclick="return confirm('Are you sure you want to cancel this booking?');">
+                                        Cancel</a>
+                                 </span>
+                                <span th:if="${!booking.tripStatus}">
+                                    <button class="btn btn-sm btn-secondary" disabled>Cancelled</button>
+                                </span>
+                            </td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>
@@ -74,7 +91,7 @@
 
         </div>
     </div>
-</div>
 
+</div>
 </body>
 </html>

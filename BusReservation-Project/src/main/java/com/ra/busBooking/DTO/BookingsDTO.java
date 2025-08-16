@@ -18,7 +18,7 @@ public class BookingsDTO {
     private double totalCalculated;
     private double price; // ✅ Needed for calculation
     private Long id;
-    private String tripStatus;
+    private boolean tripStatus;
 
     // Getters and Setters
 
@@ -54,11 +54,11 @@ public class BookingsDTO {
         this.id = id;
     }
 
-    public String getTripStatus() {
+    public boolean getTripStatus() {
         return tripStatus;
     }
 
-    public void setTripStatus(String tripStatus) {
+    public void setTripStatus(boolean tripStatus) {
         this.tripStatus = tripStatus;
     }
 }

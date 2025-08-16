@@ -5,12 +5,19 @@
     <title>Bus Reservation System</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/style.css">
+    <style>
+        h4 {
+            font-family: 'Segoe UI', sans-serif;
+            color: #008C9E;
+            font-weight: 600;
+        }
+    </style>
 </head>
 <body>
 
 <nav class="navbar navbar-dark bg-dark mb-4">
     <div class="container d-flex justify-content-between align-items-center">
-        <h3 class="text-black">Bus Reservation Dashboard</h3>
+        <h3 class="text-white">Bus Reservation Dashboard</h3>
         <div class="d-flex align-items-center gap-3">
             <h5 class="text-white mb-0">Hi, <span th:text="${userDetails}"></span></h5>
             <a th:href="@{/myBooking}" class="btn btn-outline-light btn-sm mx-2">My Bookings</a>
@@ -21,26 +28,35 @@
 
 <div class="container">
     <div class="text-center mb-4">
-        <h4 class="text-danger">Find Your Bus</h4>
+        <h4>Find Your Bus</h4>
     </div>
 
     <form th:action="@{/dashboard}" method="post" th:object="${reservation}">
-        <div class="row mb-4">
-            <div class="col-md-3 mb-2">
+        <div class="row align-items-end mb-4">
+            <!-- From -->
+            <div class="col-md-3">
                 <label for="from">From</label>
                 <input id="from" class="form-control" th:field="*{from}" required />
             </div>
-            <div class="col-md-3 mb-2">
+
+            <!-- To -->
+            <div class="col-md-3">
                 <label for="to">To</label>
                 <input id="to" class="form-control" th:field="*{to}" required />
             </div>
-            <div class="col-md-3 mb-2">
+
+            <!-- Date -->
+            <div class="col-md-3">
                 <label for="filterDate">Date</label>
                 <input type="date" id="filterDate" class="form-control" th:field="*{filterDate}" required />
             </div>
-            <div class="col-md-3 d-flex align-items-end">
+
+            <!-- Submit Button -->
+            <div class="col-md-3 mb-2 d-flex align-items-center">
                 <button type="submit" class="btn btn-primary w-100">Find</button>
             </div>
+
+        </div>
         </div>
     </form>
 
@@ -52,27 +68,27 @@
         <div th:if="${!#lists.isEmpty(busData)}" class="table-responsive">
             <table class="table table-bordered table-striped">
                 <thead class="thead-dark">
-                    <tr>
-                        <th>From</th>
-                        <th>To</th>
-                        <th>Time</th>
-                        <th>Bus Name</th>
-                        <th>Price</th>
-                        <th>Action</th>
-                    </tr>
+                <tr>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Time</th>
+                    <th>Bus Name</th>
+                    <th>Price</th>
+                    <th>Action</th>
+                </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="bus : ${busData}">
-                        <td th:text="${bus.fromDestination}"></td>
-                        <td th:text="${bus.toDestination}"></td>
-                        <td th:text="${bus.time}"></td>
-                        <td th:text="${bus.busName}"></td>
-                        <td th:text="${bus.price}"></td>
-                        <td>
-                            <a th:href="@{/dashboard/book/{id}(id=${bus.id}, date=${reservation.filterDate})}"
-                               class="btn btn-sm btn-success">Book</a>
-                        </td>
-                    </tr>
+                <tr th:each="bus : ${busData}">
+                    <td th:text="${bus.fromDestination}"></td>
+                    <td th:text="${bus.toDestination}"></td>
+                    <td th:text="${bus.time}"></td>
+                    <td th:text="${bus.busName}"></td>
+                    <td th:text="${bus.price}"></td>
+                    <td>
+                        <a th:href="@{/dashboard/book/{id}(id=${bus.id}, date=${reservation.filterDate})}"
+                           class="btn btn-sm btn-success">Book</a>
+                    </td>
+                </tr>
                 </tbody>
             </table>
         </div>

@@ -1,14 +1,14 @@
 package com.ra.busBooking.service;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Collection;
-import java.util.Set;
-import java.util.stream.Collectors;
-
+import com.lowagie.text.DocumentException;
+import com.ra.busBooking.DTO.BookingsDTO;
+import com.ra.busBooking.DTO.UserRegisteredDTO;
+import com.ra.busBooking.model.Bookings;
+import com.ra.busBooking.model.Role;
+import com.ra.busBooking.model.User;
+import com.ra.busBooking.repository.BookingsRepository;
+import com.ra.busBooking.repository.RoleRepository;
+import com.ra.busBooking.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -20,16 +20,11 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 
-import com.lowagie.text.DocumentException;
-import com.ra.busBooking.DTO.BookingsDTO;
-import com.ra.busBooking.DTO.UserRegisteredDTO;
-import com.ra.busBooking.model.Bookings;
-import com.ra.busBooking.model.Role;
-import com.ra.busBooking.model.User;
-import com.ra.busBooking.repository.BookingsRepository;
-import com.ra.busBooking.repository.RoleRepository;
-import com.ra.busBooking.repository.UserRepository;
+import java.io.*;
 import java.time.format.DateTimeFormatter;
+import java.util.Collection;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class DefaultUserServiceImpl implements DefaultUserService {

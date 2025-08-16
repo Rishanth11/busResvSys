@@ -33,7 +33,7 @@ public class ObjectCreationHelper {
 	    bks.setTime(busdata.getTime());
 	    bks.setPrice(busdata.getPrice());
 	    bks.setTotalCalculated(busdata.getTotalCalculated());
-	    bks.setTripStatus(busdata.isTripStatus() ? "Active" : "Canceled");
+	    bks.setTripStatus(busdata.isTripStatus() ? true : false);
 	    bks.setPrice(busdata.getPrice());
 	    System.out.println("Setting price in DTO: " + busdata.getPrice());
 
